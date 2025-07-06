@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CHU Mohammed VI - Oujda</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary-color: #0056A0;
+      --secondary-color: #FDB813;
+      --dark-color: #003366;
+      --light-color: #f2f8fc;
+      --text-color: #222;
+      --white: #ffffff;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: var(--text-color);
+      background-color: var(--light-color);
+    }
+
+    header {
+      background-color: var(--primary-color);
+      color: var(--white);
+      padding: 0.8rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    nav .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    nav .logo img {
+      height: 50px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    }
+
+    nav .logo strong {
+      font-size: 1.4rem;
+      letter-spacing: 1px;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      color: var(--white);
+      font-weight: bold;
+      font-size: 1rem;
+      padding: 0.8rem 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    nav button:hover {
+      background-color: var(--secondary-color);
+      color: #000;
+      border-radius: 6px;
+    }
+
+    .subnav {
+      display: none;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 1rem;
+      background-color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .subnav.active {
+      display: flex;
+    }
+
+    .subnav button {
+      background-color: var(--secondary-color);
+      border: none;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 1rem;
+      color: #222;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+
+    .subnav button i {
+      font-size: 1.5rem;
+    }
+
+    .form-section {
+      display: none;
+      background-color: white;
+      padding: 2rem;
+      margin: 1rem auto;
+      max-width: 700px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .form-section.active {
+      display: block;
+    }
+
+    form input, form textarea {
+      width: 100%;
+      padding: 0.7rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .btn {
+      background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+      color: var(--white);
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+    }
+
+    .hero {
+      background: url('https://chuoujda.ma/assets/img/bg-home.jpg') no-repeat center center/cover;
+      height: 60vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--white);
+      text-align: center;
+      position: relative;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: rgba(0, 51, 102, 0.6);
+      z-index: 0;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      position: relative;
+      z-index: 1;
+      max-width: 90%;
+      line-height: 1.2;
+      font-weight: 700;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+    }
+
+    .hero.hidden {
+      display: none;
+    }
+
+    footer {
+      background-color: var(--dark-color);
+      color: var(--white);
+      text-align: center;
+      padding: 1rem;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: #fff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="chu-logo.png.jpg" alt="Logo CHU Mohammed VI Oujda" />
+        <strong>CHU Mohammed VI</strong>
+      </div>
+      <div>
+        <button onclick="showSubNav('chu')">CHU OUJDA</button>
+        <button onclick="showSubNav('patients')">PATIENTS & PROCHES</button>
+        <button onclick="showSubNav('stages')">STAGES & RECRUTEMENTS</button>
+        <button onclick="showSubNav('soins')">SOINS & SPÉCIALITÉS</button>
+        <button onclick="showSubNav('comites')">NOS COMITÉS</button>
+      </div>
+    </nav>
+  </header>
+
+  <div id="subnav-chu" class="subnav">
+    <button><i class="fas fa-file-contract"></i>Status Juridique</button>
+    <button><i class="fas fa-sitemap"></i>Organigramme</button>
+    <button><i class="fas fa-bullseye"></i>Mission de CHU</button>
+    <button><i class="fas fa-gavel"></i>Règlementations</button>
+  </div>
+
+  <div id="subnav-patients" class="subnav">
+    <button><i class="fas fa-user-md"></i>Consultation</button>
+    <button><i class="fas fa-procedures"></i>Hospitalisation</button>
+    <button><i class="fas fa-ambulance"></i>Urgences</button>
+    <button><i class="fas fa-user-friends"></i>Visiter un patient</button>
+    <button><i class="fas fa-handshake"></i>Charte du patient</button>
+  </div>
+
+  <div id="subnav-stages" class="subnav">
+    <button onclick="showForm()"><i class="fas fa-briefcase"></i>Offres de stage</button>
+    <button><i class="fas fa-envelope-open-text"></i>Candidature spontanée</button>
+    <button><i class="fas fa-user-tie"></i>Recrutement</button>
+  </div>
+
+  <div id="subnav-soins" class="subnav">
+    <button><i class="fas fa-hospital-alt"></i>Spécialités</button>
+    <button><i class="fas fa-baby"></i>Mère et enfant</button>
+    <button><i class="fas fa-ribbon"></i>Oncologie Hassan II</button>
+    <button><i class="fas fa-brain"></i>Santé mentale</button>
+  </div>
+
+  <div id="subnav-comites" class="subnav">
+    <button><i class="fas fa-users"></i>Comité CCS</button>
+    <button><i class="fas fa-virus"></i>CLIN</button>
+    <button><i class="fas fa-pills"></i>CGMDM</button>
+    <button><i class="fas fa-heart"></i>CDO</button>
+    <button><i class="fas fa-tint"></i>Hémovigilance</button>
+  </div>
+
+  <section id="hero" class="hero">
+    <h1>Centre Hospitalier Universitaire Mohammed VI - Oujda</h1>
+  </section>
+
+  <div id="formulaire-stage" class="form-section">
+    <h2>Demande de Stage</h2>
+    <form action="mailto:stages@chuoujda.ma" method="post" enctype="text/plain">
+      <label>Nom complet :</label>
+      <input type="text" name="nom" required>
+
+      <label>Email :</label>
+      <input type="email" name="email" required>
+
+      <label>Filière / spécialité :</label>
+      <input type="text" name="filiere" required>
+
+      <label>Date souhaitée pour le début du stage :</label>
+      <input type="date" name="date" required>
+
+      <label>Message complémentaire :</label>
+      <textarea name="message" rows="4"></textarea>
+
+      <p><strong>📎 Merci d’envoyer vos pièces jointes par email à :</strong> <a href="mailto:stages@chuoujda.ma">stages@chuoujda.ma</a></p>
+
+      <button type="submit" class="btn">Envoyer la demande</button>
+    </form>
+  </div>
+
+  <footer>
+    <p>
+      <i class="fas fa-map-marker-alt"></i>
+      <a href="https://maps.google.com/?q=CHU+Mohammed+VI+Oujda" target="_blank">
+        Avenue Med VI, Oujda, Maroc
+      </a>
+    </p>
+    <p>&copy; 2025 CHU Mohammed VI - Oujda. Tous droits réservés.</p>
+  </footer>
+
+  <script>
+    function showSubNav(key) {
+      const all = document.querySelectorAll('.subnav');
+      const forms = document.querySelectorAll('.form-section');
+      const hero = document.getElementById('hero');
+      all.forEach(el => el.classList.remove('active'));
+      forms.forEach(f => f.classList.remove('active'));
+      if (hero) hero.classList.remove('hidden');
+      const target = document.getElementById('subnav-' + key);
+      if (target) target.classList.add('active');
+    }
+
+    function showForm() {
+      document.querySelectorAll('.form-section').forEach(f => f.classList.remove('active'));
+      document.getElementById('formulaire-stage').classList.add('active');
+      const hero = document.getElementById('hero');
+      if (hero) hero.classList.add('hidden');
+    }
+  </script>
+</body>
+</html>
