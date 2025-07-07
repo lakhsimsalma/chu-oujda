@@ -23,6 +23,40 @@
       background-color: var(--light-color);
     }
 
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideIn {
+      0% {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .fade-in.appear {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     header {
       background-color: var(--primary-color);
       color: var(--white);
@@ -52,6 +86,11 @@
       height: 50px;
       border-radius: 8px;
       box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease;
+    }
+
+    nav .logo img:hover {
+      transform: scale(1.05);
     }
 
     nav .logo strong {
@@ -103,10 +142,21 @@
       align-items: center;
       gap: 0.5rem;
       cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .subnav button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
 
     .subnav button i {
       font-size: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .subnav button:hover i {
+      transform: scale(1.2) rotate(10deg);
     }
 
     .form-section {
@@ -117,10 +167,15 @@
       max-width: 700px;
       border-radius: 12px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
     }
 
     .form-section.active {
       display: block;
+      opacity: 1;
+      transform: translateY(0);
     }
 
     form input, form textarea {
@@ -173,6 +228,8 @@
       line-height: 1.2;
       font-weight: 700;
       text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+      animation: slideIn 1.5s ease-out forwards;
+      opacity: 0;
     }
 
     .hero.hidden {
@@ -211,14 +268,14 @@
     </nav>
   </header>
 
-  <div id="subnav-chu" class="subnav">
+  <div id="subnav-chu" class="subnav fade-in">
     <button><i class="fas fa-file-contract"></i>Status Juridique</button>
     <button><i class="fas fa-sitemap"></i>Organigramme</button>
     <button><i class="fas fa-bullseye"></i>Mission de CHU</button>
     <button><i class="fas fa-gavel"></i>Règlementations</button>
   </div>
 
-  <div id="subnav-patients" class="subnav">
+  <div id="subnav-patients" class="subnav fade-in">
     <button><i class="fas fa-user-md"></i>Consultation</button>
     <button><i class="fas fa-procedures"></i>Hospitalisation</button>
     <button><i class="fas fa-ambulance"></i>Urgences</button>
@@ -226,20 +283,20 @@
     <button><i class="fas fa-handshake"></i>Charte du patient</button>
   </div>
 
-  <div id="subnav-stages" class="subnav">
+  <div id="subnav-stages" class="subnav fade-in">
     <button onclick="showForm()"><i class="fas fa-briefcase"></i>Offres de stage</button>
     <button><i class="fas fa-envelope-open-text"></i>Candidature spontanée</button>
     <button><i class="fas fa-user-tie"></i>Recrutement</button>
   </div>
 
-  <div id="subnav-soins" class="subnav">
+  <div id="subnav-soins" class="subnav fade-in">
     <button><i class="fas fa-hospital-alt"></i>Spécialités</button>
     <button><i class="fas fa-baby"></i>Mère et enfant</button>
     <button><i class="fas fa-ribbon"></i>Oncologie Hassan II</button>
     <button><i class="fas fa-brain"></i>Santé mentale</button>
   </div>
 
-  <div id="subnav-comites" class="subnav">
+  <div id="subnav-comites" class="subnav fade-in">
     <button><i class="fas fa-users"></i>Comité CCS</button>
     <button><i class="fas fa-virus"></i>CLIN</button>
     <button><i class="fas fa-pills"></i>CGMDM</button>
@@ -253,7 +310,7 @@
 
   <div id="formulaire-stage" class="form-section">
     <h2>Demande de Stage</h2>
-    <form action="mailto:stages@chuoujda.ma" method="post" enctype="text/plain">
+<form action="stage_handler.php" method="post">
       <label>Nom complet :</label>
       <input type="text" name="nom" required>
 
@@ -303,6 +360,23 @@
       const hero = document.getElementById('hero');
       if (hero) hero.classList.add('hidden');
     }
+
+    // Observer pour les effets au scroll
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
+    };
+    const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("appear");
+        observer.unobserve(entry.target);
+      });
+    }, appearOptions);
+    faders.forEach(fader => {
+      appearOnScroll.observe(fader);
+    });
   </script>
 </body>
 </html>
